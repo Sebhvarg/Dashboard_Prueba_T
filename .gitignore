@@ -40,3 +40,26 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Docker
+.dockerignore
+Dockerfile
+
+# .NET
+obj
+bin
+out/
+[Dd]ebug/
+[Rr]elease/
+
+# Secretos y configuraciones locales
+appsettings.Development.json
+appsettings.Local.json
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de caché de paquetes
+project.lock.json
+project.assets.json
+.nuget/
