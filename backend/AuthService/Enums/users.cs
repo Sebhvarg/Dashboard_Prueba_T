@@ -2,6 +2,9 @@ namespace AuthService.Enums;
 
 public enum UserRole
 {
-    User,
-    Admin
+    Admin, 
+    Operator,
+    Manager,
+    Customer,
+
 }
