@@ -26,7 +26,7 @@ export class ClientsComponent implements OnInit {
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]],
       email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/)]],
       phone: ['', [Validators.required, Validators.pattern(/^09\d{8}$/)]],
-      address: ['', [Validators.pattern(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s,.-]{,60}$/)]],
+      address: ['', [Validators.pattern(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s,.-]{0,60}$/)]],
       status: ['Active', Validators.required]
     });
   }

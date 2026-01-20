@@ -91,6 +91,7 @@ export class OrdersComponent implements OnInit {
     this.isEditing = false;
     this.currentOrderId = null;
     this.orderForm.reset({ status: 'Pending', totalAmount: 0 });
+    this.orderForm.get('status')?.disable(); // Deshabilitar estado al crear
     this.isModalOpen = true;
   }
 
@@ -103,6 +104,7 @@ export class OrdersComponent implements OnInit {
       status: order.status,
       description: order.description
     });
+    this.orderForm.get('status')?.enable(); // Habilitar estado al editar
     this.isModalOpen = true;
   }
 
@@ -114,7 +116,7 @@ export class OrdersComponent implements OnInit {
     if (this.orderForm.invalid) return;
 
     const orderData: Order = {
-      ...this.orderForm.value,
+      ...this.orderForm.getRawValue(),
       clientId: Number(this.orderForm.value.clientId)
     };
 

@@ -5,7 +5,7 @@
         <h2 class="text-3xl font-bold text-blue-800">
             Resumen General
         </h2>
-        <p class="text-gray-700 mt-1">Vista general del rendimiento de tu negocio.</p>
+
     </div>
 
     <!-- Stats Cards Grid -->
@@ -39,7 +39,7 @@
             <div class="flex justify-between items-start">
                 <div>
                     <p class="text-sm font-medium text-gray-700">Aprobados</p>
-                    <h3 class="text-2xl font-bold text-blue-600 mt-2">{{ stats.approvedOrders }}</h3>
+                    <h3 class="text-2xl font-bold text-blue-600 mt-2">{{ stats.completedOrders }}</h3>
                 </div>
             </div>
         </div>
@@ -51,6 +51,16 @@
                 <div>
                     <p class="text-sm font-medium text-gray-700">Pendientes</p>
                     <h3 class="text-2xl font-bold text-blue-500 mt-2">{{ stats.pendingOrders }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg hover:shadow-blue-500/20 transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium text-gray-700">Clientes Activos</p>
+                    <h3 class="text-2xl font-bold text-green-600 mt-2">{{ stats.activeClients }}</h3>
                 </div>
             </div>
         </div>
@@ -69,11 +79,13 @@
             </div>
         </div>
 
-        <!-- Placeholder for Future Data -->
-        <div
-            class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg flex flex-col items-center justify-center text-center">
-            <h3 class="text-lg font-bold text-black">Próximamente</h3>
-            <p class="text-gray-700 mt-2">Más estadísticas en desarrollo...</p>
+        <!-- Activity Chart -->
+        <div class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg">
+            <h3 class="text-lg font-bold text-black mb-4">Actividad (Últimos 7 días)</h3>
+            <div class="h-64 flex justify-center">
+                <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions">
+                </canvas>
+            </div>
         </div>
 
     </div>

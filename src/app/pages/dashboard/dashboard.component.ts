@@ -19,18 +19,16 @@ export class DashboardComponent implements OnInit {
     totalRevenue: 0,
     pendingOrders: 0,
     approvedOrders: 0,
-    rejectedOrders: 0
+    rejectedOrders: 0,
+    activeClients: 0,
+    ordersByDate: []
   };
 
-  // Chart Configuration
+  // Pie Chart Configuration
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
-      legend: {
-        display: true,
-        position: 'top',
-        labels: { color: '#1f2937' }
-      }
+      legend: { display: true, position: 'top', labels: { color: '#1f2937' } }
     }
   };
   public pieChartData: ChartData<'doughnut', number[], string | string[]> = {
@@ -45,6 +43,25 @@ export class DashboardComponent implements OnInit {
   };
   public pieChartType: ChartType = 'doughnut';
 
+  // Bar Chart Configuration
+  public barChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    plugins: {
+      legend: { display: true, position: 'top', labels: { color: '#1f2937' } }
+    },
+    scales: {
+      x: { ticks: { color: '#4B5563' } },
+      y: { ticks: { color: '#4B5563' }, beginAtZero: true }
+    }
+  };
+  public barChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [
+      { data: [], label: 'Pedidos por Día', backgroundColor: '#3B82F6', hoverBackgroundColor: '#2563EB' }
+    ]
+  };
+  public barChartType: ChartType = 'bar';
+
   ngOnInit() {
     this.loadStats();
   }
@@ -53,22 +70,35 @@ export class DashboardComponent implements OnInit {
     this.api.get('Orders/stats').subscribe({
       next: (data: any) => {
         this.stats = data;
-        this.updateChart();
+        this.updateCharts();
       },
       error: (err) => console.error('Error loading stats', err)
     });
   }
 
-  updateChart() {
+  updateCharts() {
+    // Update Pie Chart
     this.pieChartData = {
       ...this.pieChartData,
       datasets: [{
         ...this.pieChartData.datasets[0],
         data: [
           this.stats.pendingOrders,
-          this.stats.approvedOrders,
+          this.stats.completedOrders, // Nota: Backend devuelve 'CompletedOrders' que es 'Approved'
           this.stats.rejectedOrders
         ]
+      }]
+    };
+
+    // Update Bar Chart
+    const dates = this.stats.ordersByDate.map((item: any) => new Date(item.date).toLocaleDateString());
+    const counts = this.stats.ordersByDate.map((item: any) => item.count);
+
+    this.barChartData = {
+      labels: dates,
+      datasets: [{
+        ...this.barChartData.datasets[0],
+        data: counts
       }]
     };
   }

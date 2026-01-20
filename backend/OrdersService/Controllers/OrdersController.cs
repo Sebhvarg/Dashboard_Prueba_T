@@ -68,14 +68,31 @@ public class OrdersController : ControllerBase
         var totalOrders = await _context.Orders.CountAsync();
         var completedOrders = await _context.Orders.CountAsync(o => o.Status == StateOrder.Approved);
         var pendingOrders = await _context.Orders.CountAsync(o => o.Status == StateOrder.Pending);
-        var activeClients = await _context.Clients.CountAsync();
+        var rejectedOrders = await _context.Orders.CountAsync(o => o.Status == StateOrder.Rejected);
+        var activeClients = await _context.Clients.CountAsync(c => c.Status == StatusClient.Active);
+
+        // Ingresos totales (solo de órdenes aprobadas)
+        var totalRevenue = await _context.Orders
+            .Where(o => o.Status == StateOrder.Approved)
+            .SumAsync(o => o.TotalAmount);
+
+        // Actividad de los últimos 7 días
+        var last7Days = DateTime.UtcNow.AddDays(-7);
+        var ordersByDate = await _context.Orders
+            .Where(o => o.OrderDate >= last7Days)
+            .GroupBy(o => o.OrderDate.Date)
+            .Select(g => new { Date = g.Key, Count = g.Count() })
+            .ToListAsync();
 
         return new
         {
             TotalOrders = totalOrders,
             CompletedOrders = completedOrders,
             PendingOrders = pendingOrders,
-            ActiveClients = activeClients
+            RejectedOrders = rejectedOrders,
+            ActiveClients = activeClients,
+            TotalRevenue = totalRevenue,
+            OrdersByDate = ordersByDate
         };
     }
 }
