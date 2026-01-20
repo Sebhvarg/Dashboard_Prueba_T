@@ -78,26 +78,26 @@ using (var scope = app.Services.CreateScope())
         var random = new Random(42); // Seed fijo para reproducibilidad
         var orders = new List<Order>
         {
-            new Order { ClientId = 1, TotalAmount = 150.50m, Status = StateOrder.Approved, Description = "Pedido de productos electronicos" },
-            new Order { ClientId = 2, TotalAmount = 89.99m, Status = StateOrder.Pending, Description = "Pedido de ropa de invierno" },
-            new Order { ClientId = 3, TotalAmount = 250.00m, Status = StateOrder.Approved, Description = "Pedido de muebles de oficina" },
-            new Order { ClientId = 1, TotalAmount = 75.25m, Status = StateOrder.Rejected, Description = "Pedido de accesorios" },
-            new Order { ClientId = 4, TotalAmount = 199.99m, Status = StateOrder.Approved, Description = "Pedido de electrodomesticos" },
-            new Order { ClientId = 5, TotalAmount = 45.00m, Status = StateOrder.Pending, Description = "Pedido de libros" },
-            new Order { ClientId = 6, TotalAmount = 320.75m, Status = StateOrder.Approved, Description = "Pedido de equipos deportivos" },
-            new Order { ClientId = 7, TotalAmount = 110.00m, Status = StateOrder.Pending, Description = "Pedido de herramientas" },
-            new Order { ClientId = 8, TotalAmount = 55.50m, Status = StateOrder.Approved, Description = "Pedido de cosmeticos" },
-            new Order { ClientId = 2, TotalAmount = 180.00m, Status = StateOrder.Approved, Description = "Pedido de juguetes" },
-            new Order { ClientId = 10, TotalAmount = 95.00m, Status = StateOrder.Rejected, Description = "Pedido de articulos de cocina" },
-            new Order { ClientId = 11, TotalAmount = 420.00m, Status = StateOrder.Approved, Description = "Pedido de tecnologia" },
-            new Order { ClientId = 12, TotalAmount = 67.80m, Status = StateOrder.Pending, Description = "Pedido de decoracion" },
-            new Order { ClientId = 14, TotalAmount = 299.99m, Status = StateOrder.Approved, Description = "Pedido de instrumentos musicales" },
-            new Order { ClientId = 15, TotalAmount = 135.00m, Status = StateOrder.Pending, Description = "Pedido de jardineria" },
-            new Order { ClientId = 3, TotalAmount = 88.50m, Status = StateOrder.Approved, Description = "Pedido de papeleria" },
-            new Order { ClientId = 5, TotalAmount = 210.00m, Status = StateOrder.Rejected, Description = "Pedido de camping" },
-            new Order { ClientId = 8, TotalAmount = 165.25m, Status = StateOrder.Approved, Description = "Pedido de mascotas" },
-            new Order { ClientId = 6, TotalAmount = 78.00m, Status = StateOrder.Pending, Description = "Pedido de limpieza" },
-            new Order { ClientId = 4, TotalAmount = 445.00m, Status = StateOrder.Approved, Description = "Pedido de computadoras" }
+            new Order { ClientId = 1, TotalAmount = 150.50m, Status = StateOrder.Approved, Description = "Pedido de productos electronicos", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 2, TotalAmount = 89.99m, Status = StateOrder.Pending, Description = "Pedido de ropa de invierno", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 3, TotalAmount = 250.00m, Status = StateOrder.Approved, Description = "Pedido de muebles de oficina", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 1, TotalAmount = 75.25m, Status = StateOrder.Rejected, Description = "Pedido de accesorios", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 4, TotalAmount = 199.99m, Status = StateOrder.Approved, Description = "Pedido de electrodomesticos", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 5, TotalAmount = 45.00m, Status = StateOrder.Pending, Description = "Pedido de libros", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 6, TotalAmount = 320.75m, Status = StateOrder.Approved, Description = "Pedido de equipos deportivos", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 7, TotalAmount = 110.00m, Status = StateOrder.Pending, Description = "Pedido de herramientas", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 8, TotalAmount = 55.50m, Status = StateOrder.Approved, Description = "Pedido de cosmeticos", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 2, TotalAmount = 180.00m, Status = StateOrder.Approved, Description = "Pedido de juguetes", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 10, TotalAmount = 95.00m, Status = StateOrder.Rejected, Description = "Pedido de articulos de cocina", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 11, TotalAmount = 420.00m, Status = StateOrder.Approved, Description = "Pedido de tecnologia", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 12, TotalAmount = 67.80m, Status = StateOrder.Pending, Description = "Pedido de decoracion", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 14, TotalAmount = 299.99m, Status = StateOrder.Approved, Description = "Pedido de instrumentos musicales", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 15, TotalAmount = 135.00m, Status = StateOrder.Pending, Description = "Pedido de jardineria", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 3, TotalAmount = 88.50m, Status = StateOrder.Approved, Description = "Pedido de papeleria", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 5, TotalAmount = 210.00m, Status = StateOrder.Rejected, Description = "Pedido de camping", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 8, TotalAmount = 165.25m, Status = StateOrder.Approved, Description = "Pedido de mascotas", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 6, TotalAmount = 78.00m, Status = StateOrder.Pending, Description = "Pedido de limpieza", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
+            new Order { ClientId = 4, TotalAmount = 445.00m, Status = StateOrder.Approved, Description = "Pedido de computadoras", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) }
         };
         
         dbContext.Orders.AddRange(orders);
