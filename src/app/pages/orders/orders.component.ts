@@ -27,7 +27,16 @@ export class OrdersComponent implements OnInit {
   isEditing = false;
   currentOrderId: number | null = null;
 
-  // Filters
+  // Busqueda de clientes
+  clientSearchText: string = '';
+  filteredClients: Client[] = [];
+  showClientDropdown: boolean = false;
+  selectedClient: Client | null = null;
+
+  showSuccessDialog = false;
+  successMessage = '';
+
+  // Filtros
   filterStatus: StateOrder | '' = '';
   filterClientId: number | '' = '';
   filterDate: string = '';
@@ -92,6 +101,7 @@ export class OrdersComponent implements OnInit {
     this.currentOrderId = null;
     this.orderForm.reset({ status: 'Pending', totalAmount: 0 });
     this.orderForm.get('status')?.disable(); // Deshabilitar estado al crear
+    this.clearClientSelection();
     this.isModalOpen = true;
   }
 
@@ -105,6 +115,9 @@ export class OrdersComponent implements OnInit {
       description: order.description
     });
     this.orderForm.get('status')?.enable(); // Habilitar estado al editar
+    // Set selected client for edit mode
+    this.selectedClient = this.clients.find(c => c.id === order.clientId) || null;
+    this.clientSearchText = this.selectedClient?.name || '';
     this.isModalOpen = true;
   }
 
@@ -126,6 +139,7 @@ export class OrdersComponent implements OnInit {
         next: () => {
           this.loadOrders();
           this.closeModal();
+          this.showSuccess('Orden actualizada exitosamente');
         },
         error: (err) => console.error('Error updating order', err)
       });
@@ -134,6 +148,7 @@ export class OrdersComponent implements OnInit {
         next: () => {
           this.loadOrders();
           this.closeModal();
+          this.showSuccess('Orden creada exitosamente');
         },
         error: (err) => console.error('Error creating order', err)
       });
@@ -152,5 +167,55 @@ export class OrdersComponent implements OnInit {
   getClientName(clientId: number): string {
     const client = this.clients.find(c => c.id === clientId);
     return client ? client.name : 'Desconocido';
+  }
+
+  // Busqueda de clientes
+  filterClients() {
+    if (!this.clientSearchText.trim()) {
+      this.filteredClients = this.clients;
+    } else {
+      const searchLower = this.clientSearchText.toLowerCase();
+      this.filteredClients = this.clients.filter(client =>
+        client.name.toLowerCase().includes(searchLower) ||
+        client.email?.toLowerCase().includes(searchLower)
+      );
+    }
+    this.showClientDropdown = true;
+  }
+
+  selectClient(client: Client) {
+    this.selectedClient = client;
+    this.clientSearchText = client.name;
+    this.orderForm.patchValue({ clientId: client.id });
+    this.showClientDropdown = false;
+  }
+
+  clearClientSelection() {
+    this.selectedClient = null;
+    this.clientSearchText = '';
+    this.orderForm.patchValue({ clientId: '' });
+    this.filteredClients = this.clients;
+    this.showClientDropdown = false;
+  }
+
+  onClientInputFocus() {
+    this.filteredClients = this.clients;
+    this.showClientDropdown = true;
+  }
+
+  onClientInputBlur() {
+  
+    setTimeout(() => {
+      this.showClientDropdown = false;
+    }, 200);
+  }
+
+  showSuccess(message: string) {
+    this.successMessage = message;
+    this.showSuccessDialog = true;
+  }
+
+  closeSuccessDialog() {
+    this.showSuccessDialog = false;
   }
 }

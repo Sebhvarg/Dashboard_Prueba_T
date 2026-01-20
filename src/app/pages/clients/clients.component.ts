@@ -21,6 +21,9 @@ export class ClientsComponent implements OnInit {
   isEditing = false;
   currentClientId: number | null = null;
 
+  showSuccessDialog = false;
+  successMessage = '';
+
   constructor() {
     this.clientForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]],
@@ -70,6 +73,7 @@ export class ClientsComponent implements OnInit {
         next: () => {
           this.loadClients();
           this.closeModal();
+          this.showSuccess('Cliente actualizado exitosamente');
         },
         error: (err) => console.error('Error updating client', err)
       });
@@ -78,6 +82,7 @@ export class ClientsComponent implements OnInit {
         next: () => {
           this.loadClients();
           this.closeModal();
+          this.showSuccess('Cliente creado exitosamente');
         },
         error: (err) => console.error('Error creating client', err)
       });
@@ -91,5 +96,14 @@ export class ClientsComponent implements OnInit {
         error: (err) => console.error('Error deleting client', err)
       });
     }
+  }
+
+  showSuccess(message: string) {
+    this.successMessage = message;
+    this.showSuccessDialog = true;
+  }
+
+  closeSuccessDialog() {
+    this.showSuccessDialog = false;
   }
 }

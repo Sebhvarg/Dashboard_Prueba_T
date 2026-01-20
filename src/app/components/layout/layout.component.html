@@ -1,9 +1,10 @@
-<div class="flex h-screen bg-white text-black font-sans overflow-hidden">
+<div class="flex  h-screen bg-white border-r-2 border-blue-800 text-gray-600 font-sans overflow-hidden">
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-blue-700 border-r-2 border-blue-900  flex flex-col transition-all duration-300 transform"
+    <aside
+        class="w-64 bg-white md:bg-blue-700 border-r-2 border-blue-900 flex flex-col transition-all duration-300 transform"
         [class.-translate-x-full]="!isSidebarOpen" [class.md:translate-x-0]="true"
-        class="md:relative absolute z-20 h-full shadow-sm">
+        class="md:relative absolute z-20 h-full shadow-sm bg-white">
 
         <!-- Logo -->
         <div class="h-16 flex items-center justify-center border-b border-gray-200">
@@ -45,7 +46,7 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col h-full relative">
+    <div class="flex-1 flex flex-col h-full relative bg-gray-100">
 
         <!-- Mobile Header -->
         <header class="md:hidden h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4">
@@ -59,10 +60,22 @@
             </button>
         </header>
 
-        <!-- Content Area -->
-        <main class="flex-1 overflow-auto bg-gray-50 p-6">
+
+        <main class="flex-1 overflow-auto bg-gray-100 p-6">
             <router-outlet></router-outlet>
         </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-200 py-4 px-6">
+            <div class="flex justify-center items-center">
+                <img src="assets/logo_h_s.webp" alt="Logo" class="mx-auto my-4 h-8">
+            </div>
+            <div class="flex justify-center items-center text-sm text-gray-600">
+
+                <p>&copy; 2026 BlueStar. Todos los derechos reservados.</p>
+
+            </div>
+        </footer>
 
     </div>
 
