@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Agrega servicios al contenedor
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp",
@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
             policy.WithOrigins("http://localhost:4200") // Angular URL
                   .AllowAnyHeader()
                   .AllowAnyMethod()
-                  .AllowCredentials(); // If using cookies/auth headers
+                  .AllowCredentials(); 
         });
 });
 
@@ -73,19 +73,19 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
+// Configura la pipeline de HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAngularApp"); // Enable CORS
+app.UseCors("AllowAngularApp"); // Habilita CORS
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
- // Important: Add Authentication before Authorization
+ // Importante: Agrega Authentication antes de Authorization
 app.UseAuthorization();
 
 app.MapControllers();

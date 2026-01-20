@@ -118,9 +118,14 @@ En una nueva terminal:
 ```bash
 cd backend/OrdersService
 dotnet restore
-dotnet ef database update
 dotnet run
 ```
+
+Al iniciar el OrdersService por primera vez:
+
+- Las migraciones de la base de datos se aplican automaticamente
+- Se crean 15 clientes de ejemplo
+- Se crean 20 pedidos de ejemplo
 
 ### 4. Configurar y Ejecutar el Frontend
 
