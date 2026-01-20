@@ -166,6 +166,32 @@
         </div>
     </div>
 
+    <!-- Confirm Delete Dialog -->
+    <div *ngIf="showConfirmDialog"
+        class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm m-4 p-6 text-center transform transition-all">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                <svg class="h-10 w-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                    </path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">¿Estás seguro?</h3>
+            <p class="text-gray-600 mb-6">Esta acción eliminará el cliente permanentemente. ¿Deseas continuar?</p>
+            <div class="flex space-x-3">
+                <button (click)="cancelDelete()"
+                    class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors">
+                    Cancelar
+                </button>
+                <button (click)="confirmDelete()"
+                    class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition-colors">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Success Dialog -->
     <div *ngIf="showSuccessDialog"
         class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50 backdrop-blur-sm">

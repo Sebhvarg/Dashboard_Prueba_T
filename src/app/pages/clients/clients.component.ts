@@ -24,6 +24,10 @@ export class ClientsComponent implements OnInit {
   showSuccessDialog = false;
   successMessage = '';
 
+  // Confirm delete dialog
+  showConfirmDialog = false;
+  pendingDeleteId: number | null = null;
+
   constructor() {
     this.clientForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]],
@@ -69,6 +73,7 @@ export class ClientsComponent implements OnInit {
     const clientData: Client = this.clientForm.value;
 
     if (this.isEditing && this.currentClientId) {
+      clientData.id = this.currentClientId; 
       this.clientService.updateClient(this.currentClientId, clientData).subscribe({
         next: () => {
           this.loadClients();
@@ -90,12 +95,27 @@ export class ClientsComponent implements OnInit {
   }
 
   deleteClient(id: number) {
-    if (confirm('¿Estás seguro de eliminar este cliente?')) {
-      this.clientService.deleteClient(id).subscribe({
-        next: () => this.loadClients(),
+    this.pendingDeleteId = id;
+    this.showConfirmDialog = true;
+  }
+
+  confirmDelete() {
+    if (this.pendingDeleteId) {
+      this.clientService.deleteClient(this.pendingDeleteId).subscribe({
+        next: () => {
+          this.loadClients();
+          this.pendingDeleteId = null;
+          this.showConfirmDialog = false;
+          this.showSuccess('Cliente eliminado exitosamente');
+        },
         error: (err) => console.error('Error deleting client', err)
       });
     }
+  }
+
+  cancelDelete() {
+    this.pendingDeleteId = null;
+    this.showConfirmDialog = false;
   }
 
   showSuccess(message: string) {

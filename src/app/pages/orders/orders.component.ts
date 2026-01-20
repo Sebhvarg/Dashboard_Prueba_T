@@ -36,6 +36,11 @@ export class OrdersComponent implements OnInit {
   showSuccessDialog = false;
   successMessage = '';
 
+  // Confirm delete dialog
+  showConfirmDialog = false;
+  pendingDeleteId: number | null = null;
+
+
   // Filtros
   filterStatus: StateOrder | '' = '';
   filterClientId: number | '' = '';
@@ -156,12 +161,27 @@ export class OrdersComponent implements OnInit {
   }
 
   deleteOrder(id: number) {
-    if (confirm('¿Estás seguro de eliminar este pedido?')) {
-      this.orderService.deleteOrder(id).subscribe({
-        next: () => this.loadOrders(),
+    this.pendingDeleteId = id;
+    this.showConfirmDialog = true;
+  }
+
+  confirmDelete() {
+    if (this.pendingDeleteId) {
+      this.orderService.deleteOrder(this.pendingDeleteId).subscribe({
+        next: () => {
+          this.loadOrders();
+          this.pendingDeleteId = null;
+          this.showConfirmDialog = false;
+          this.showSuccess('Orden eliminada exitosamente');
+        },
         error: (err) => console.error('Error deleting order', err)
       });
     }
+  }
+
+  cancelDelete() {
+    this.pendingDeleteId = null;
+    this.showConfirmDialog = false;
   }
 
   getClientName(clientId: number): string {
