@@ -11,4 +11,5 @@ public class Order
     public DateTime OrderDate { get; set; } = DateTime.UtcNow;
     public decimal TotalAmount { get; set; }
     public StateOrder Status { get; set; } = StateOrder.Pending;
+    public string Description { get; set; } = string.Empty;
 }
