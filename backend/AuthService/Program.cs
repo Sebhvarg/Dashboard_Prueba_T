@@ -1,4 +1,6 @@
 using AuthService.Data;
+using AuthService.Models;
+using AuthService.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -48,6 +50,29 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+// Seed del usuario admin al iniciar la aplicación
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    
+    // Aplicar migraciones pendientes automáticamente
+    dbContext.Database.Migrate();
+    
+    // Crear usuario admin si no existe
+    if (!dbContext.Users.Any(u => u.Username == "admin"))
+    {
+        var adminUser = new User
+        {
+            Username = "admin",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin1234!"),
+            Role = UserRole.Admin
+        };
+        dbContext.Users.Add(adminUser);
+        dbContext.SaveChanges();
+        Console.WriteLine("Usuario admin creado exitosamente.");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -68,4 +93,5 @@ app.MapControllers();
 app.Run();
 
 public partial class Program { }
+
 
