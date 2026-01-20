@@ -1,0 +1,76 @@
+<div class="flex h-screen bg-gray-900 text-gray-100 font-sans overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-800 border-r border-gray-700 flex flex-col transition-all duration-300 transform"
+        [class.-translate-x-full]="!isSidebarOpen" [class.md:translate-x-0]="true"
+        class="md:relative absolute z-20 h-full">
+
+        <!-- Logo -->
+        <div class="h-16 flex items-center justify-center border-b border-gray-700">
+            <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                Dashboard
+            </h1>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+
+            <a routerLink="/dashboard" routerLinkActive="bg-gray-700 text-blue-400 border-l-4 border-blue-400"
+                [routerLinkActiveOptions]="{exact: true}"
+                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-r-lg transition-colors group">
+
+                <span class="font-medium">Resumen</span>
+            </a>
+
+            <a routerLink="/clients" routerLinkActive="bg-gray-700 text-purple-400 border-l-4 border-purple-400"
+                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-r-lg transition-colors group">
+                < <span class="font-medium">Clientes</span>
+            </a>
+
+            <a routerLink="/orders" routerLinkActive="bg-gray-700 text-green-400 border-l-4 border-green-400"
+                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-r-lg transition-colors group">
+
+                <span class="font-medium">Pedidos</span>
+            </a>
+
+            <a routerLink="/products" routerLinkActive="bg-gray-700 text-yellow-400 border-l-4 border-yellow-400"
+                class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-r-lg transition-colors group">
+
+                <span class="font-medium">Productos</span>
+            </a>
+
+        </nav>
+
+        <!-- User Profile / Logout -->
+        <div class="p-4 border-t border-gray-700">
+            <button (click)="logout()"
+                class="flex items-center w-full px-4 py-2 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-lg transition-colors">
+
+                Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-full relative">
+
+        <!-- Mobile Header -->
+        <header class="md:hidden h-16 bg-gray-800 border-b border-gray-700 flex items-center justify-between px-4">
+            <span class="text-xl font-bold text-white">Dashboard</span>
+            <button (click)="isSidebarOpen = !isSidebarOpen" class="text-gray-300 focus:outline-none">
+
+            </button>
+        </header>
+
+        <!-- Content Area -->
+        <main class="flex-1 overflow-auto bg-gray-900 p-6">
+            <router-outlet></router-outlet>
+        </main>
+
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div *ngIf="isSidebarOpen" (click)="isSidebarOpen = false"
+        class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"></div>
+
+</div>

@@ -8,6 +8,18 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") // Angular URL
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // If using cookies/auth headers
+        });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -43,9 +55,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAngularApp"); // Enable CORS
+
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); // Important: Add Authentication before Authorization
+app.UseAuthentication();
+ // Important: Add Authentication before Authorization
 app.UseAuthorization();
 
 app.MapControllers();
