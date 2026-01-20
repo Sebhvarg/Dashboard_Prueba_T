@@ -63,7 +63,7 @@ public class OrdersController : ControllerBase
     
     // Estadísticas para el Dashboard
     [HttpGet("stats")]
-    public async Task<ActionResult<object>> GetStats()
+    public async Task<ActionResult<object>> GetStats([FromQuery] string period = "7days")
     {
         var totalOrders = await _context.Orders.CountAsync();
         var completedOrders = await _context.Orders.CountAsync(o => o.Status == StateOrder.Approved);
@@ -76,13 +76,50 @@ public class OrdersController : ControllerBase
             .Where(o => o.Status == StateOrder.Approved)
             .SumAsync(o => o.TotalAmount);
 
-        // Actividad de los últimos 7 días
-        var last7Days = DateTime.UtcNow.AddDays(-7);
-        var ordersByDate = await _context.Orders
-            .Where(o => o.OrderDate >= last7Days)
-            .GroupBy(o => o.OrderDate.Date)
-            .Select(g => new { Date = g.Key, Count = g.Count() })
+        // Actividad
+        DateTime startDate;
+        bool groupByWeek = false;
+
+        switch (period.ToLower())
+        {
+            case "3months":
+                startDate = DateTime.UtcNow.AddMonths(-3);
+                groupByWeek = true;
+                break;
+            case "7days":
+            default:
+                startDate = DateTime.UtcNow.AddDays(-7);
+                groupByWeek = false;
+                break;
+        }
+
+        // Obtener fechas en memoria para agrupar (simplifica agrupación por semana/mes)
+        var ordersInRange = await _context.Orders
+            .Where(o => o.OrderDate >= startDate)
+            .Select(o => o.OrderDate)
             .ToListAsync();
+
+        object ordersByDate;
+
+        if (groupByWeek)
+        {
+            ordersByDate = ordersInRange
+                .GroupBy(d => System.Globalization.ISOWeek.GetYear(d) + "-" + System.Globalization.ISOWeek.GetWeekOfYear(d))
+                .Select(g => new { 
+                    Date = g.Min().Date, 
+                    Count = g.Count() 
+                })
+                .OrderBy(x => x.Date)
+                .ToList();
+        }
+        else
+        {
+            ordersByDate = ordersInRange
+                .GroupBy(d => d.Date)
+                .Select(g => new { Date = g.Key, Count = g.Count() })
+                .OrderBy(x => x.Date)
+                .ToList();
+        }
 
         return new
         {

@@ -24,6 +24,13 @@ export class DashboardComponent implements OnInit {
     ordersByDate: []
   };
 
+  currentPeriod: string = '7days';
+
+  onPeriodChange(event: any) {
+    this.currentPeriod = event.target.value;
+    this.loadStats();
+  }
+
   // Pie Chart Configuration
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -67,7 +74,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadStats() {
-    this.api.get('Orders/stats').subscribe({
+    this.api.get(`Orders/stats?period=${this.currentPeriod}`).subscribe({
       next: (data: any) => {
         this.stats = data;
         this.updateCharts();
