@@ -2,26 +2,14 @@
 
     <!-- Header -->
     <div>
-        <h2 class="text-3xl font-bold text-blue-800">
+        <h2 class="text-3xl font-bold text-blue-700">
             Resumen General
         </h2>
 
     </div>
 
-    <!-- Stats Cards Grid -->
+    <!-- Cards de estadisticas -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        <!-- Revenue Card -->
-        <div
-            class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg hover:shadow-blue-500/20 transition-shadow">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-sm font-medium text-gray-700">Ingresos Totales</p>
-                    <h3 class="text-2xl font-bold text-black mt-2">{{ stats.totalRevenue | currency }}</h3>
-                </div>
-            </div>
-        </div>
-
 
         <div
             class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg hover:shadow-blue-500/20 transition-shadow">
@@ -33,7 +21,7 @@
             </div>
         </div>
 
-        <!-- Approved Orders -->
+        <!-- Aprobados -->
         <div
             class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg hover:shadow-blue-500/20 transition-shadow">
             <div class="flex justify-between items-start">
@@ -44,7 +32,7 @@
             </div>
         </div>
 
-        <!-- Pending Orders -->
+        <!-- Pendientes -->
         <div
             class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg hover:shadow-blue-500/20 transition-shadow">
             <div class="flex justify-between items-start">
@@ -67,19 +55,20 @@
 
     </div>
 
-    <!-- Charts Section -->
+    <!-- Graficos -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        <!-- Orders Status Chart -->
-        <div class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg">
+        <!-- Estado de Pedidos -->
+        <div class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg overflow-hidden">
             <h3 class="text-lg font-bold text-black mb-4">Estado de Pedidos</h3>
-            <div class="h-64 flex justify-center">
-                <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions">
+            <div class="h-64 flex justify-center items-center max-w-full">
+                <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"
+                    class="max-w-full max-h-full">
                 </canvas>
             </div>
         </div>
 
-        <!-- Activity Chart -->
+        <!-- Actividad (Últimos 7 días) -->
         <div class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg">
             <h3 class="text-lg font-bold text-black mb-4">Actividad (Últimos 7 días)</h3>
             <div class="h-64 flex justify-center">
