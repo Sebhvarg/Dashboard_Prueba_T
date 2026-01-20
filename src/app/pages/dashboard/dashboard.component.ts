@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
       legend: {
         display: true,
         position: 'top',
-        labels: { color: 'white' }
+        labels: { color: '#1f2937' }
       }
     }
   };
@@ -39,8 +39,8 @@ export class DashboardComponent implements OnInit {
       data: [ 0, 0, 0 ],
       backgroundColor: ['#FBBF24', '#10B981', '#EF4444'],
       hoverBackgroundColor: ['#F59E0B', '#059669', '#DC2626'],
-      borderColor: '#1F2937',
-      hoverBorderColor: '#1F2937'
+      borderColor: '#ffffff',
+      hoverBorderColor: '#ffffff'
     } ]
   };
   public pieChartType: ChartType = 'doughnut';
