@@ -134,36 +134,6 @@ ng serve
 
 La aplicacion estara disponible en: http://localhost:4200
 
-## Comandos Utiles
-
-### Frontend
-
-| Comando                          | Descripcion                             |
-| -------------------------------- | --------------------------------------- |
-| `npm start`                      | Inicia el servidor de desarrollo        |
-| `npm run build`                  | Compila el proyecto para produccion     |
-| `npm test`                       | Ejecuta las pruebas unitarias con Karma |
-| `ng generate component <nombre>` | Genera un nuevo componente              |
-
-### Backend
-
-| Comando                             | Descripcion                       |
-| ----------------------------------- | --------------------------------- |
-| `dotnet restore`                    | Restaura las dependencias         |
-| `dotnet build`                      | Compila el proyecto               |
-| `dotnet run`                        | Ejecuta el servicio               |
-| `dotnet test`                       | Ejecuta las pruebas unitarias     |
-| `dotnet ef migrations add <nombre>` | Crea una nueva migracion          |
-| `dotnet ef database update`         | Aplica las migraciones pendientes |
-
-### Docker
-
-| Comando                | Descripcion                              |
-| ---------------------- | ---------------------------------------- |
-| `docker-compose up -d` | Inicia los contenedores en segundo plano |
-| `docker-compose down`  | Detiene y elimina los contenedores       |
-| `docker-compose logs`  | Muestra los logs de los contenedores     |
-
 ## Endpoints de la API
 
 ### AuthService (http://localhost:5001)
@@ -201,15 +171,13 @@ dotnet test
 
 Una vez iniciados los servicios del backend, la documentacion Swagger estara disponible en:
 
-- AuthService: http://localhost:5001/swagger
-- OrdersService: http://localhost:5002/swagger
+- AuthService: http://localhost:5163/swagger
+
+- OrdersService: http://localhost:5126/swagger
 
 ## Notas Adicionales
 
-- Asegurese de que los puertos 4200, 5001, 5002 y 1433 esten disponibles antes de ejecutar los servicios.
+- Asegurese de que los puertos 4200, 5163, 5126 y 1433 esten disponibles antes de ejecutar los servicios.
 - Las migraciones de Entity Framework Core deben ejecutarse antes de iniciar los servicios por primera vez.
 - Para desarrollo, el proyecto utiliza certificados HTTPS autofirmados de .NET.
-
-## Licencia
-
-Este proyecto es de uso privado.
+- Se utilizó JWT para la autenticación.
