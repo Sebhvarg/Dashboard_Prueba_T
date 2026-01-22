@@ -1,0 +1,86 @@
+<div class="flex  h-screen bg-white border-r-2 border-blue-800 text-gray-600 font-sans overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside
+        class="w-64 bg-white md:bg-blue-700 border-r-2 border-blue-900 flex flex-col transition-all duration-300 transform"
+        [class.-translate-x-full]="!isSidebarOpen" [class.md:translate-x-0]="true"
+        class="md:relative absolute z-20 h-full shadow-sm bg-white">
+
+        <!-- Logo -->
+        <div class="h-16 flex items-center justify-center border-b border-gray-200">
+            <img src="assets/logo_h.webp" alt="Logo" class="mx-auto my-4 h-8">
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+
+            <a routerLink="/dashboard" routerLinkActive="bg-white text-blue-700 border-l-4 border-blue-700"
+                [routerLinkActiveOptions]="{exact: true}"
+                class="flex items-center gap-3 px-4 py-3 text-blue-700 hover:bg-gray-50 hover:text-blue-700 rounded-r-lg transition-colors group">
+                <mat-icon class="text-current">dashboard</mat-icon>
+                <span class="font-medium">Resumen</span>
+            </a>
+
+            <a routerLink="/clients" routerLinkActive="bg-white text-blue-700 border-l-4 border-blue-700"
+                class="flex items-center gap-3 px-4 py-3 text-blue-700 hover:bg-gray-50 hover:text-blue-700 rounded-r-lg transition-colors group">
+                <mat-icon class="text-current">people</mat-icon>
+                <span class="font-medium">Clientes</span>
+            </a>
+
+            <a routerLink="/orders" routerLinkActive="bg-white text-blue-700 border-l-4 border-blue-700"
+                class="flex items-center gap-3 px-4 py-3 text-blue-700 hover:bg-gray-50 hover:text-blue-700 rounded-r-lg transition-colors group">
+                <mat-icon class="text-current">receipt</mat-icon>
+                <span class="font-medium">Ordenes</span>
+            </a>
+
+        </nav>
+
+        <!-- User Profile / Logout -->
+        <div class="p-4 border-t border-gray-200">
+            <button (click)="logout()"
+                class="flex items-center gap-3 w-full px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
+                <mat-icon class="text-current">logout</mat-icon>
+                Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-full relative bg-gray-100">
+
+        <!-- Mobile Header -->
+        <header class="md:hidden h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4">
+            <span class="text-xl font-bold text-blue-800">Dashboard</span>
+            <button (click)="isSidebarOpen = !isSidebarOpen" class="text-gray-600 focus:outline-none">
+                <!-- Icono hamburguesa -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </header>
+
+
+        <main class="flex-1 overflow-auto bg-gray-100 p-6">
+            <router-outlet></router-outlet>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-200 py-4 px-6">
+            <div class="flex justify-center items-center">
+                <img src="assets/logo_h_s.webp" alt="Logo" class="mx-auto my-4 h-8">
+            </div>
+            <div class="flex justify-center items-center text-sm text-gray-600">
+
+                <p>&copy; 2026 BlueStar. Todos los derechos reservados.</p>
+
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div *ngIf="isSidebarOpen" (click)="isSidebarOpen = false"
+        class="fixed inset-0 bg-black bg-opacity-20 z-10 md:hidden"></div>
+
+</div>

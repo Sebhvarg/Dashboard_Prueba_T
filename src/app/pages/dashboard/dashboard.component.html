@@ -1,0 +1,89 @@
+<div class="space-y-6">
+
+    <!-- Header -->
+    <div>
+        <h2 class="text-3xl font-bold text-blue-700">
+            Resumen General
+        </h2>
+
+    </div>
+
+    <!-- Cards de estadisticas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div
+            class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg hover:shadow-blue-500/20 transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium text-gray-700">Pedidos Totales</p>
+                    <h3 class="text-2xl font-bold text-black mt-2">{{ stats.totalOrders }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aprobados -->
+        <div
+            class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg hover:shadow-blue-500/20 transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium text-gray-700">Aprobados</p>
+                    <h3 class="text-2xl font-bold text-blue-600 mt-2">{{ stats.completedOrders }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pendientes -->
+        <div
+            class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg hover:shadow-blue-500/20 transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium text-gray-700">Pendientes</p>
+                    <h3 class="text-2xl font-bold text-blue-500 mt-2">{{ stats.pendingOrders }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg hover:shadow-blue-500/20 transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium text-gray-700">Clientes Activos</p>
+                    <h3 class="text-2xl font-bold text-green-600 mt-2">{{ stats.activeClients }}</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Graficos -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Estado de Pedidos -->
+        <div class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg overflow-hidden">
+            <h3 class="text-lg font-bold text-black mb-4">Estado de Pedidos</h3>
+            <div class="h-64 flex justify-center items-center max-w-full">
+                <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"
+                    class="max-w-full max-h-full">
+                </canvas>
+            </div>
+        </div>
+
+        <!-- Actividad (Últimos 7 días) -->
+        <div class="bg-gray-200 p-6 rounded-2xl border border-blue-800 shadow-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-black">Actividad</h3>
+                <select (change)="onPeriodChange($event)"
+                    class="bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-blue-500">
+                    <option value="7days" selected>Últimos 7 días</option>
+                    <option value="3months">Últimos 3 meses (Semanas)</option>
+                </select>
+            </div>
+            <div class="h-64 flex justify-center">
+                <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions">
+                </canvas>
+            </div>
+        </div>
+
+    </div>
+
+</div>

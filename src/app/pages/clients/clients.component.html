@@ -1,0 +1,212 @@
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-3xl font-bold text-blue-700">
+                Gestión de Clientes
+            </h2>
+
+        </div>
+        <button (click)="openCreateModal()"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg flex items-center transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clip-rule="evenodd" />
+            </svg>
+            Nuevo Cliente
+        </button>
+    </div>
+
+    <!-- Clients Table -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-blue-500">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Nombre</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Email
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Teléfono</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Estado</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-white uppercase tracking-wider">
+                            Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr *ngFor="let client of clients" class="hover:bg-blue-50 transition-colors even:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ client.name }}</div>
+                            <div class="text-sm text-gray-500">{{ client.address }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ client.email }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ client.phone }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                                [ngClass]="(client.status === 'Active' || client.status === 'active') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+                                {{ (client.status === 'Active' || client.status === 'active') ? 'Activo' : 'Inactivo' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button (click)="openEditModal(client)"
+                                class="text-blue-600 hover:text-blue-900 mr-4">Editar</button>
+                            <button (click)="deleteClient(client.id!)"
+                                class="text-red-600 hover:text-red-900">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="clients.length === 0">
+                        <td colspan="5" class="px-6 py-10 text-center text-gray-500">
+                            No hay clientes registrados aún.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div *ngIf="isModalOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg m-4 transform transition-all">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-gray-900">
+                    {{ isEditing ? 'Editar Cliente' : 'Nuevo Cliente' }}
+                </h3>
+                <button (click)="closeModal()" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <form [formGroup]="clientForm" (ngSubmit)="saveClient()" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                    <input type="text" formControlName="name" maxlength="20"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        placeholder="Nombres Apellidos">
+                    <div *ngIf="clientForm.get('name')?.invalid && (clientForm.get('name')?.dirty || clientForm.get('name')?.touched)"
+                        class="text-red-500 text-xs mt-1">
+                        <div *ngIf="clientForm.get('name')?.errors?.['required']">El nombre es requerido.</div>
+                        <div *ngIf="clientForm.get('name')?.errors?.['pattern']">Solo se permiten letras y espacios.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" formControlName="email"
+                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                            placeholder="nombre@ejemplo.com">
+                        <div *ngIf="clientForm.get('email')?.invalid && (clientForm.get('email')?.dirty || clientForm.get('email')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div *ngIf="clientForm.get('email')?.errors?.['required']">El email es requerido.</div>
+                            <div
+                                *ngIf="clientForm.get('email')?.errors?.['email'] || clientForm.get('email')?.errors?.['pattern']">
+                                Formato de email inválido.</div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                        <input type="text" formControlName="phone" maxlength="10"
+                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                            placeholder="0999999999">
+                        <div *ngIf="clientForm.get('phone')?.invalid && (clientForm.get('phone')?.dirty || clientForm.get('phone')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div *ngIf="clientForm.get('phone')?.errors?.['required']">El teléfono es requerido.</div>
+                            <div *ngIf="clientForm.get('phone')?.errors?.['pattern']">Debe tener 10 dígitos y empezar
+                                con 09.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+                    <input type="text" formControlName="address" maxlength="60"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        placeholder="Dirección completa">
+                    <div *ngIf="clientForm.get('address')?.invalid && (clientForm.get('address')?.dirty || clientForm.get('address')?.touched)"
+                        class="text-red-500 text-xs mt-1">
+                        <div *ngIf="clientForm.get('address')?.errors?.['pattern']">Caracteres no permitidos.</div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                    <select formControlName="status"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white">
+                        <option value="Active">Activo</option>
+                        <option value="Inactive">Inactivo</option>
+                    </select>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-100">
+                    <button type="button" (click)="closeModal()"
+                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" [disabled]="clientForm.invalid"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        {{ isEditing ? 'Guardar Cambios' : 'Crear Cliente' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Delete Dialog -->
+    <div *ngIf="showConfirmDialog"
+        class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm m-4 p-6 text-center transform transition-all">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                <svg class="h-10 w-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                    </path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">¿Estás seguro?</h3>
+            <p class="text-gray-600 mb-6">Esta acción eliminará el cliente permanentemente. ¿Deseas continuar?</p>
+            <div class="flex space-x-3">
+                <button (click)="cancelDelete()"
+                    class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors">
+                    Cancelar
+                </button>
+                <button (click)="confirmDelete()"
+                    class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition-colors">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Dialog -->
+    <div *ngIf="showSuccessDialog"
+        class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm m-4 p-6 text-center transform transition-all">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">¡Éxito!</h3>
+            <p class="text-gray-600 mb-6">{{ successMessage }}</p>
+            <button (click)="closeSuccessDialog()"
+                class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors">
+                Aceptar
+            </button>
+        </div>
+    </div>
+</div>
