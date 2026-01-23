@@ -51,6 +51,7 @@ export class OrdersComponent implements OnInit {
       clientId: ['', Validators.required],
       totalAmount: [0, [Validators.required, Validators.min(0.01)]],
       status: ['Pending', Validators.required],
+      cantidad: [1, [Validators.required, Validators.min(1)]],
       description: ['']
     });
   }
@@ -105,6 +106,7 @@ export class OrdersComponent implements OnInit {
     this.isEditing = false;
     this.currentOrderId = null;
     this.orderForm.reset({ status: 'Pending', totalAmount: 0 });
+    
     this.orderForm.get('status')?.disable(); // Deshabilitar estado al crear
     this.clearClientSelection();
     this.isModalOpen = true;
@@ -117,10 +119,10 @@ export class OrdersComponent implements OnInit {
       clientId: order.clientId,
       totalAmount: order.totalAmount,
       status: order.status,
-      description: order.description
+      description: order.description,
+      cantidad: order.cantidad || 1
     });
     this.orderForm.get('status')?.enable(); // Habilitar estado al editar
-    // Set selected client for edit mode
     this.selectedClient = this.clients.find(c => c.id === order.clientId) || null;
     this.clientSearchText = this.selectedClient?.name || '';
     this.isModalOpen = true;

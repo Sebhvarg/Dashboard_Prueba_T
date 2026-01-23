@@ -72,7 +72,8 @@ describe('OrdersComponent', () => {
       clientId: 1,
       totalAmount: 100,
       status: 'Pending',
-      description: 'Test Order'
+      description: 'Test Order',
+      cantidad: 1
     });
     
     component.saveOrder();

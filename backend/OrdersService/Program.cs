@@ -97,7 +97,7 @@ using (var scope = app.Services.CreateScope())
             new Order { ClientId = 5, TotalAmount = 210.00m, Status = StateOrder.Rejected, Description = "Pedido de camping", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
             new Order { ClientId = 8, TotalAmount = 165.25m, Status = StateOrder.Approved, Description = "Pedido de mascotas", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
             new Order { ClientId = 6, TotalAmount = 78.00m, Status = StateOrder.Pending, Description = "Pedido de limpieza", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) },
-            new Order { ClientId = 4, TotalAmount = 445.00m, Status = StateOrder.Approved, Description = "Pedido de computadoras", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)) }
+            new Order { ClientId = 4, TotalAmount = 445.00m, Status = StateOrder.Approved, Description = "Pedido de computadoras", OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 90)), Cantidad = 2}
         };
         
         dbContext.Orders.AddRange(orders);

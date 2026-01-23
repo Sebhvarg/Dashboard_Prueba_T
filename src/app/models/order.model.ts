@@ -10,4 +10,5 @@ export interface Order {
     totalAmount: number;
     status: StateOrder;
     description: string;
+    cantidad: number;
 }

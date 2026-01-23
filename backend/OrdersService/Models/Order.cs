@@ -12,4 +12,5 @@ public class Order
     public decimal TotalAmount { get; set; }
     public StateOrder Status { get; set; } = StateOrder.Pending;
     public string Description { get; set; } = string.Empty;
+    public int Cantidad { get; set; } = 1;
 }
